@@ -65,8 +65,7 @@ class Mercaderia {
 const mostrarMercaderia = (prendas) => {
     console.clear();
     console.log("Prendas disponibles");
-
-    prendas.sort((a, b) => a.nombre.localeCompare(b.nombre)); // Ordenar alfabéticamente
+    prendas.sort((a, b) => a.nombre.localeCompare(b.nombre)); // Ordenamos alfabéticamente
     prendas.forEach(prenda => console.log(prenda));
 }
 
