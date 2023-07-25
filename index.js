@@ -69,21 +69,80 @@ let prenda = [
 mostrarMercaderia(prenda);
 
 
-// Función para crear y agregar empleados al array
+// Función para crear y agregar prendas al array
 const agregarPrenda = () => {
-    // Pedimos los datos del empleado
-  let nombre = prompt("Ingrese la prenda a agregar");
-  let precio = parseInt(prompt("Ingrese el precio de la prenda"));
-  let stock = parseInt(prompt("Ingrese el stock"));
+    // Pedimos los datos de la prenda
+    let nombre = prompt("Ingrese la prenda a agregar");
+    let precio = parseInt(prompt("Ingrese el precio de la prenda"));
+    let stock = parseInt(prompt("Ingrese el stock"));
 
-    // Instanciamos la clase Empleado y almacenamos en la variable empleado con los datos ingresados por el usuario 
-  let prendaAgregada = new Mercaderia(nombre, precio, stock);
+    let prendaAgregada = new Mercaderia(nombre, precio, stock);
 
-  // Agregamos el empleado en el array empelados 
-  prenda.push(prendaAgregada);
+    // Agregamos el empleado en el array empelados 
+    prenda.push(prendaAgregada);
 
-  // Llamamos la función para que nos muestre la lista de empleados actualizada por consola
-  mostrarMercaderia(prenda);
+    // Llamamos la función para que nos muestre la lista de empleados actualizada por consola
+    mostrarMercaderia(prenda);
 };
 
-agregarPrenda();
+
+// Función para eliminar empleados 
+const eliminarPrenda = () => {
+
+    const prendaBuscada = prendaExiste()
+  
+    if(!prendaBuscada) return
+  
+    const confirmacion = confirm(`Estas seguro que deseas eliminar el empleado ${prendaBuscada.nombre} ?`)
+  
+    if(confirmacion) {
+      prenda = prenda.filter( prenda => prenda.nombre.toLowerCase() !== prendaBuscada.nombre.toLowerCase()); 
+      mostrarMercaderia(prenda);
+    } else {
+      alert("Eliminación cancelada")
+    }
+};
+
+const prendaExiste = () => {
+    let nombrePrenda = prompt("Ingrese el nombre de la prenda a eliminar");
+
+    let indice = prenda.findIndex(
+      (prenda) => prenda.nombre.toLowerCase() === nombrePrenda.toLowerCase()
+    );
+  
+    if (indice === -1) {
+      return alert(`La prenda ${nombrePrenda} no existe`);
+    }  
+    return prenda[indice];
+};
+
+let encendido = true; // indicamos si la aplicación esta encendida
+
+// Ciclo while que maneja la aplicación
+while (encendido) {
+  alert("Menú principal:\n1 - Agregar una prenda\n2 - Eliminar una prenda\n3 - Modificar prenda\n4 - Apagar");
+  let opcion = parseInt(prompt("Ingrese una opción"));
+
+  switch (opcion) {
+    case 1:
+      agregarPrenda();
+      break;
+    case 2:
+      eliminarPrenda();
+      break;
+    case 3:
+      editarEmpleado();
+      break;
+    case 4:
+      encendido = false;
+      break;
+    default:
+      alert("Inserte una opción correcta");
+  }
+}
+
+alert("Gracias vuelva pronto");
+
+
+
+
