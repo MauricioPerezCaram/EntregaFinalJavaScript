@@ -33,10 +33,31 @@
 
 // Clase constructora de mercadería
 class Mercaderia {
-    constructor(nombre, precio, stock){
+    constructor(nombre, precio, stock) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
+    }
+
+    cambiarNombre(nombre) {
+        this.nombre = nombre;
+        alert("El nombre ha sido cambiado con éxito");
+    }
+
+    cambiarPrecio(precio) {
+        if (isNaN(precio)) {
+            return alert("El precio debe ser un valor numérico");
+        }
+        this.precio = precio;
+        alert("El precio ha sido cambiado con éxito");
+    }
+
+    cambiarStock(stock) {
+        if (isNaN(stock)) {
+            return alert("El stock debe ser un valor numérico");
+        }
+        this.stock = stock;
+        alert("El stock ha sido cambiado con éxito");
     }
 }
 
@@ -44,101 +65,112 @@ const mostrarMercaderia = (prendas) => {
     console.clear();
     console.log("Prendas disponibles");
 
-    // para ver las prendas alfabeticamente
-    prendas.sort((a, b) => {
-        if (a.nombre > b.nombre) {
-            return 1;
-        } else if (a.nombre < b.nombre) {
-            return -1;
-        } else {
-            return 0;
-        }
-    });
-    prendas.forEach( prenda => console.log(prenda));
-
+    prendas.sort((a, b) => a.nombre.localeCompare(b.nombre)); // Ordenar alfabéticamente
+    prendas.forEach(prenda => console.log(prenda));
 }
 
-// Array prendas
-let prenda = [
+let prendas = [
     new Mercaderia("Remera", 8000, 22),
     new Mercaderia("Camisa", 15000, 27),
     new Mercaderia("Pantalón", 12000, 32),
     new Mercaderia("Campera", 22000, 36),
 ];
 
-mostrarMercaderia(prenda);
+mostrarMercaderia(prendas);
 
-
-// Función para crear y agregar prendas al array
 const agregarPrenda = () => {
-    // Pedimos los datos de la prenda
     let nombre = prompt("Ingrese la prenda a agregar");
     let precio = parseInt(prompt("Ingrese el precio de la prenda"));
     let stock = parseInt(prompt("Ingrese el stock"));
 
     let prendaAgregada = new Mercaderia(nombre, precio, stock);
 
-    // Agregamos el empleado en el array empelados 
-    prenda.push(prendaAgregada);
+    prendas.push(prendaAgregada);
 
-    // Llamamos la función para que nos muestre la lista de empleados actualizada por consola
-    mostrarMercaderia(prenda);
+    mostrarMercaderia(prendas);
 };
 
-
-// Función para eliminar empleados 
 const eliminarPrenda = () => {
+    const prendaBuscada = prendaExiste("Ingrese el nombre de la prenda a eliminar");
 
-    const prendaBuscada = prendaExiste()
-  
-    if(!prendaBuscada) return
-  
-    const confirmacion = confirm(`Estas seguro que deseas eliminar el empleado ${prendaBuscada.nombre} ?`)
-  
-    if(confirmacion) {
-      prenda = prenda.filter( prenda => prenda.nombre.toLowerCase() !== prendaBuscada.nombre.toLowerCase()); 
-      mostrarMercaderia(prenda);
+    if (!prendaBuscada) return;
+
+    const confirmacion = confirm(`¿Estás seguro que deseas eliminar la prenda ${prendaBuscada.nombre}?`);
+
+    if (confirmacion) {
+        prendas = prendas.filter(prenda => prenda.nombre.toLowerCase() !== prendaBuscada.nombre.toLowerCase());
+        mostrarMercaderia(prendas);
     } else {
-      alert("Eliminación cancelada")
+        alert("Eliminación cancelada");
     }
 };
 
-const prendaExiste = () => {
-    let nombrePrenda = prompt("Ingrese el nombre de la prenda a eliminar");
+const editarPrenda = () => {
+    const prendaBuscada = prendaExiste("Ingrese el nombre de la prenda a editar");
 
-    let indice = prenda.findIndex(
-      (prenda) => prenda.nombre.toLowerCase() === nombrePrenda.toLowerCase()
+    if (!prendaBuscada) return;
+
+    alert("Menú editar prenda:\n1 - Editar nombre\n2 - Editar precio\n3 - Editar stock");
+
+    let opcion = parseInt(prompt("Ingrese una opción para editar"));
+
+    switch (opcion) {
+        case 1:
+            let nombre = prompt("Ingrese el nuevo nombre de la prenda");
+            prendaBuscada.cambiarNombre(nombre);
+            break;
+        case 2:
+            let precio = parseInt(prompt("Ingrese el nuevo precio de la prenda"));
+            prendaBuscada.cambiarPrecio(precio);
+            break;
+        case 3:
+            let stock = parseInt(prompt("Ingrese el nuevo stock de la prenda"));
+            prendaBuscada.cambiarStock(stock);
+            break;
+        default:
+            alert("Ingrese una opción correcta");
+    }
+
+    mostrarMercaderia(prendas);
+}
+
+const prendaExiste = (mensaje) => {
+    let nombrePrenda = prompt(mensaje);
+
+    let indice = prendas.findIndex(
+        (prenda) => prenda.nombre.toLowerCase() === nombrePrenda.toLowerCase()
     );
-  
+
     if (indice === -1) {
-      return alert(`La prenda ${nombrePrenda} no existe`);
-    }  
-    return prenda[indice];
+        alert(`La prenda ${nombrePrenda} no existe`);
+        return null;
+    }
+
+    return prendas[indice];
 };
 
-let encendido = true; // indicamos si la aplicación esta encendida
+let encendido = true;
 
-// Ciclo while que maneja la aplicación
 while (encendido) {
-  alert("Menú principal:\n1 - Agregar una prenda\n2 - Eliminar una prenda\n3 - Modificar prenda\n4 - Apagar");
-  let opcion = parseInt(prompt("Ingrese una opción"));
+    alert("Menú principal:\n1 - Agregar una prenda\n2 - Eliminar una prenda\n3 - Modificar prenda\n4 - Apagar");
+    let opcion = parseInt(prompt("Ingrese una opción"));
 
-  switch (opcion) {
-    case 1:
-      agregarPrenda();
-      break;
-    case 2:
-      eliminarPrenda();
-      break;
-    case 3:
-      editarEmpleado();
-      break;
-    case 4:
-      encendido = false;
-      break;
-    default:
-      alert("Inserte una opción correcta");
-  }
+    switch (opcion) {
+        case 1:
+            agregarPrenda();
+            break;
+        case 2:
+            eliminarPrenda();
+            break;
+        case 3:
+            editarPrenda();
+            break;
+        case 4:
+            encendido = false;
+            break;
+        default:
+            alert("Inserte una opción correcta");
+    }
 }
 
 alert("Gracias vuelva pronto");
