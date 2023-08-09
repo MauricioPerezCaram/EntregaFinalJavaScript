@@ -53,20 +53,6 @@
 //     mostrarMercaderia(prendas);
 // };
 
-// const eliminarPrenda = () => {
-//     const prendaBuscada = prendaExiste("Ingrese el nombre de la prenda a eliminar");
-
-//     if (!prendaBuscada) return;
-
-//     const confirmacion = confirm(`¿Estás seguro que deseas eliminar la prenda ${prendaBuscada.nombre}?`);
-
-//     if (confirmacion) {
-//         prendas = prendas.filter(prenda => prenda.nombre.toLowerCase() !== prendaBuscada.nombre.toLowerCase());
-//         mostrarMercaderia(prendas);
-//     } else {
-//         alert("Eliminación cancelada");
-//     }
-// };
 
 // const editarPrenda = () => {
 //     const prendaBuscada = prendaExiste("Ingrese el nombre de la prenda a editar");
@@ -147,9 +133,17 @@ let agregar = document.querySelector("#btn");
 let buscar = document.querySelector("#buscar");
 let contenedorPrendas = document.querySelector("#contenedorPrendas")
 
+let prendas = [
+    // new Mercaderia("Remera", 8000, 22),
+    // new Mercaderia("Camisa", 15000, 27),
+    // new Mercaderia("Pantalón", 12000, 32),
+    // new Mercaderia("Campera", 22000, 36),
+];
+
 // // Clase constructora de mercadería
 class Mercaderia {
     constructor(nombre, precio, stock) {
+        this.id = Date.now().toString(36);
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
@@ -177,13 +171,6 @@ class Mercaderia {
     }
 }
 
-let prendas = [
-    new Mercaderia("Remera", 8000, 22),
-    new Mercaderia("Camisa", 15000, 27),
-    new Mercaderia("Pantalón", 12000, 32),
-    new Mercaderia("Campera", 22000, 36),
-];
-
 form.onsubmit = (event) => {
     event.preventDefault()
 
@@ -195,12 +182,13 @@ form.onsubmit = (event) => {
 
 const mostrarPrendas = () => {
     contenedorPrendas.innerHTML = " ";
-    prendas.forEach((prendas) => {
+    prendas.forEach((prendas, index) => {
+        console.log(`La prenda ${prendas.nombre} esta en la posición del array ${index}`);
         let tarjetaPrendas = document.createElement("div");
         tarjetaPrendas.classList.add("mt-2", "border", "borde-2", "p-3", "shadow", "shadow-md")
         tarjetaPrendas.innerHTML = `
         <p>Prenda: ${prendas.nombre}</p>
-        <p>Precio: $${prendas.precio}</p>
+        <p>Precio: $ ${prendas.precio}</p>
         <p>Stock: ${prendas.stock}</p>
         `
         contenedorPrendas.appendChild(tarjetaPrendas);
@@ -219,6 +207,13 @@ const mostrarPrendas = () => {
         btnEditar.innerHTML = "Editar";
         tarjetaPrendas.appendChild(btnEditar);
 
-    })
+        btnEliminar.onclick = () => eliminarPrenda(index);
+
+    })    
+    console.log(prendas);
 }
 
+const eliminarPrenda = (index) => {
+    prendas.splice(index, 1);
+    mostrarPrendas();
+};
