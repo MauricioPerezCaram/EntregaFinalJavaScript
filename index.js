@@ -32,6 +32,11 @@
 //     alert("Bienvenido al programa.");
 // }
 
+
+
+
+
+
 // const mostrarMercaderia = (prendas) => {
 //     console.clear();
 //     console.log("Prendas disponibles");
@@ -54,7 +59,7 @@
 // };
 
 
-// const editarPrenda = () => {
+
 //     const prendaBuscada = prendaExiste("Ingrese el nombre de la prenda a editar");
 
 //     if (!prendaBuscada) return;
@@ -133,13 +138,6 @@ let agregar = document.querySelector("#btn");
 let buscar = document.querySelector("#buscar");
 let contenedorPrendas = document.querySelector("#contenedorPrendas")
 
-let prendas = [
-    // new Mercaderia("Remera", 8000, 22),
-    // new Mercaderia("Camisa", 15000, 27),
-    // new Mercaderia("Pantalón", 12000, 32),
-    // new Mercaderia("Campera", 22000, 36),
-];
-
 // // Clase constructora de mercadería
 class Mercaderia {
     constructor(nombre, precio, stock) {
@@ -171,19 +169,51 @@ class Mercaderia {
     }
 }
 
+let prendas = [];
+let prendasEditar;
+let modoEdicion = false;
+
+// form.onsubmit = (event) => {
+//     event.preventDefault()
+
+//     if (modoEdicion = true) {
+//         let index = prendas.findIndex(prenda => prenda.id === prendasEditar.id)
+//         prendas[index].nombre = nombre.value;
+//         prendas[index].precio = precio.value;
+//         prendas[index].stock = stock.value;
+//     } else {
+//         empleado.push (new Mercaderia (nombre.value, precio.value, stock.value));
+//     }
+//     prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
+//     form.reset();
+
+//     mostrarPrendas();
+// }
+
 form.onsubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
+    if (modoEdicion) {
+        let index = prendas.findIndex(prenda => prenda.id === prendasEditar.id)
+        prendas[index].nombre = nombre.value;
+        prendas[index].precio = precio.value;
+        prendas[index].stock = stock.value;
+
+        modoEdicion = false; 
+        agregar.innerHTML = "Agregar"; 
+    } else {
+        prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
+    }
+
     form.reset();
-
     mostrarPrendas();
 }
+
 
 const mostrarPrendas = () => {
     contenedorPrendas.innerHTML = " ";
     prendas.forEach((prendas, index) => {
-        console.log(`La prenda ${prendas.nombre} esta en la posición del array ${index}`);
+        // console.log(`La prenda ${prendas.nombre} esta en la posición del array ${index}`);
         let tarjetaPrendas = document.createElement("div");
         tarjetaPrendas.classList.add("mt-2", "border", "borde-2", "p-3", "shadow", "shadow-md")
         tarjetaPrendas.innerHTML = `
@@ -209,11 +239,31 @@ const mostrarPrendas = () => {
 
         btnEliminar.onclick = () => eliminarPrenda(index);
 
+        btnEditar.onclick = () => editarPrenda(index);
+
+
     })    
-    console.log(prendas);
+
 }
 
 const eliminarPrenda = (index) => {
     prendas.splice(index, 1);
     mostrarPrendas();
 };
+
+
+// funcion para editar prenda
+
+const editarPrenda = (index) => {
+    prendasEditar = prendas[index];
+
+    nombre.value = prendasEditar.nombre;
+    precio.value = prendasEditar.precio;
+    stock.value = prendasEditar.stock;
+
+    modoEdicion = true;
+    agregar.innerHTML = "Editar"; // Cambiar el texto del botón a "Editar"
+}
+
+
+
