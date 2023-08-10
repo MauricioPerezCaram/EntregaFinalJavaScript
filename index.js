@@ -173,23 +173,6 @@ let prendas = [];
 let prendasEditar;
 let modoEdicion = false;
 
-// form.onsubmit = (event) => {
-//     event.preventDefault()
-
-//     if (modoEdicion = true) {
-//         let index = prendas.findIndex(prenda => prenda.id === prendasEditar.id)
-//         prendas[index].nombre = nombre.value;
-//         prendas[index].precio = precio.value;
-//         prendas[index].stock = stock.value;
-//     } else {
-//         empleado.push (new Mercaderia (nombre.value, precio.value, stock.value));
-//     }
-//     prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
-//     form.reset();
-
-//     mostrarPrendas();
-// }
-
 form.onsubmit = (event) => {
     event.preventDefault();
 
@@ -206,11 +189,11 @@ form.onsubmit = (event) => {
     }
 
     form.reset();
-    mostrarPrendas();
+    mostrarPrendas(prendas);
 }
 
 
-const mostrarPrendas = () => {
+const mostrarPrendas = (prendas) => {
     contenedorPrendas.innerHTML = " ";
     prendas.forEach((prendas, index) => {
         // console.log(`La prenda ${prendas.nombre} esta en la posición del array ${index}`);
@@ -248,7 +231,7 @@ const mostrarPrendas = () => {
 
 const eliminarPrenda = (index) => {
     prendas.splice(index, 1);
-    mostrarPrendas();
+    mostrarPrendas(prendas);
 };
 
 
@@ -266,4 +249,14 @@ const editarPrenda = (index) => {
 }
 
 
+// boton busqueda y filtrado
+buscar.oninput = (event) => {
+    console.log(event.target.value);
+    if(event.target.value === " ") {
+        mostrarPrendas(prendas);
+    }else {
+        let prendasFiltradas = prendas.filter (prenda => prenda.nombre.toLowerCase().includes(event.target.value))
+        mostrarPrendas(prendasFiltradas);
+    }
+}
 
