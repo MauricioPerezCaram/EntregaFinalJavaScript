@@ -188,6 +188,7 @@ form.onsubmit = (event) => {
         prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
     }
 
+    localStorage.setItem("prendas", JSON.stringify(prendas))
     form.reset();
     mostrarPrendas(prendas);
 }
@@ -196,7 +197,6 @@ form.onsubmit = (event) => {
 const mostrarPrendas = (prendas) => {
     contenedorPrendas.innerHTML = " ";
     prendas.forEach((prendas, index) => {
-        // console.log(`La prenda ${prendas.nombre} esta en la posición del array ${index}`);
         let tarjetaPrendas = document.createElement("div");
         tarjetaPrendas.classList.add("mt-2", "border", "borde-2", "p-3", "shadow", "shadow-md")
         tarjetaPrendas.innerHTML = `
@@ -206,6 +206,11 @@ const mostrarPrendas = (prendas) => {
         `
         contenedorPrendas.appendChild(tarjetaPrendas);
 
+        // Editar prenda
+        let btnEditar = document.createElement("button");
+        btnEditar.classList.add("btn", "btn-info", "m-3");
+        btnEditar.innerHTML = "Editar";
+        tarjetaPrendas.appendChild(btnEditar);
 
         // Eliminar prenda
 
@@ -214,15 +219,18 @@ const mostrarPrendas = (prendas) => {
         btnEliminar.innerHTML = "Eliminar";
         tarjetaPrendas.appendChild(btnEliminar);
 
-        // Editar prenda
-        let btnEditar = document.createElement("button");
-        btnEditar.classList.add("btn", "btn-info", "ms-3");
-        btnEditar.innerHTML = "Editar";
-        tarjetaPrendas.appendChild(btnEditar);
 
-        btnEliminar.onclick = () => eliminarPrenda(index);
+
+
+        btnEliminar.onclick = () => {
+            eliminarPrenda(index);
+            localStorage.setItem("prendas", JSON.stringify(prendas))
+        }
 
         btnEditar.onclick = () => editarPrenda(index);
+
+
+        // Local Storage
 
 
     })    
@@ -259,4 +267,18 @@ buscar.oninput = (event) => {
         mostrarPrendas(prendasFiltradas);
     }
 }
+
+
+
+
+
+// localStorage.setItem("prendas", prendas);
+// localStorage.setItem("prendasStringify", JSON.stringify(prendas));
+
+// let prendasStringify = localStorage.getItem("prendasStringify");
+// console.log(prendasStringify);
+// console.log(typeof prendasStringify);
+
+// let prendasParseadas = JSON.parse(localStorage.getItem("prendasStringify"))
+
 

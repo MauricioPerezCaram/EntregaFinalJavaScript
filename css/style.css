@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+.titulos {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+}
+
+body {
+    margin: 20px;
+    background-color:aliceblue;
+}
