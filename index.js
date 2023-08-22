@@ -1,38 +1,3 @@
-// saludo bienvenida al usuario
-function saludar() {
-    let nombreUsuario = prompt("Tienda Ropa Flama \nIngresa tu nombre: ");
-    alert("Hola " + nombreUsuario + "! Bienvenido a nuestra tienda online.\nCon esta aplicación vas a poder ver, agregar , eliminar y hasta modificar las prendas.");
-  }
-saludar();
-  
-// ingreso con usuario y contraseña
-let intentos = 0;
-let usuario = prompt("Ingresa tu nombre de usuario administrador (Admin)").toLowerCase();
-let contrasena = prompt("Ingresa la contraseña de administrador (admin123)").toLowerCase();
-function pedirUsuario(){
-usuario = prompt("Ingresa un nombre de usuario administrador (Admin)").toLowerCase();
-}
-
-function pedirContrasena() {
-    contrasena = prompt("Ingresa una contraseña de administrador (admin123)").toLowerCase();
-}
-  
-while ((usuario !== "admin".toLowerCase() || contrasena !== "admin123".toLowerCase()) && intentos < 2) {
-    intentos++;
-    alert("El usuario o contraseña son incorrectos. Te quedan " + (3-intentos) + " intentos.");
-    pedirUsuario();
-    pedirContrasena();
-}
-  
-if (intentos === 2 && (usuario !== "admin".toLowerCase() || contrasena !== "admin123".toLowerCase())) {
-    alert("Intentaste muchas veces. Acceso denegado.");
-    console.log("Recarga la página");
-    throw new Error("Acceso denegado");
-} else {
-    alert("Bienvenido al programa.");
-}
-
-
 let form = document.querySelector("#form");
 let nombre = document.querySelector("#nombre");
 let precio = document.querySelector("#precio");
@@ -124,6 +89,7 @@ const mostrarPrendas = (prendas) => {
         btnEliminar.onclick = () => {
             eliminarPrenda(index);
             localStorage.setItem("prendas", JSON.stringify(prendas))
+
         }
 
         btnEditar.onclick = () => editarPrenda(index);
