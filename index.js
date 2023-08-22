@@ -6,7 +6,6 @@ let agregar = document.querySelector("#btn");
 let buscar = document.querySelector("#buscar");
 let contenedorPrendas = document.querySelector("#contenedorPrendas")
 
-// Clase constructora de mercadería
 class Mercaderia {
     constructor(nombre, precio, stock) {
         this.id = Date.now().toString(36);
@@ -41,6 +40,15 @@ let prendas = [];
 let prendasEditar;
 let modoEdicion = false;
 
+// Cargar datos desde el almacenamiento local cuando la página se carga
+window.addEventListener("DOMContentLoaded", () => {
+    const storedData = localStorage.getItem("prendas");
+    if (storedData) {
+        prendas = JSON.parse(storedData);
+        mostrarPrendas(prendas);
+    }
+});
+
 form.onsubmit = (event) => {
     event.preventDefault();
 
@@ -56,31 +64,28 @@ form.onsubmit = (event) => {
         prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
     }
 
-    localStorage.setItem("prendas", JSON.stringify(prendas))
+    localStorage.setItem("prendas", JSON.stringify(prendas));
     form.reset();
     mostrarPrendas(prendas);
 }
 
-
 const mostrarPrendas = (prendas) => {
     contenedorPrendas.innerHTML = " ";
-    prendas.forEach((prendas, index) => {
+    prendas.forEach((prenda, index) => {
         let tarjetaPrendas = document.createElement("div");
         tarjetaPrendas.classList.add("mt-2", "border", "borde-2", "p-3", "shadow", "shadow-md")
         tarjetaPrendas.innerHTML = `
-        <p>Prenda: ${prendas.nombre}</p>
-        <p>Precio: $ ${prendas.precio}</p>
-        <p>Stock: ${prendas.stock}</p>
+        <p>Prenda: ${prenda.nombre}</p>
+        <p>Precio: $ ${prenda.precio}</p>
+        <p>Stock: ${prenda.stock}</p>
         `
         contenedorPrendas.appendChild(tarjetaPrendas);
 
-        // Editar prenda
         let btnEditar = document.createElement("button");
         btnEditar.classList.add("btn", "btn-info", "m-3");
         btnEditar.innerHTML = "Editar";
         tarjetaPrendas.appendChild(btnEditar);
 
-        // Eliminar prenda
         let btnEliminar = document.createElement("button");
         btnEliminar.classList.add("btn", "btn-danger");
         btnEliminar.innerHTML = "Eliminar";
@@ -88,8 +93,6 @@ const mostrarPrendas = (prendas) => {
 
         btnEliminar.onclick = () => {
             eliminarPrenda(index);
-            localStorage.setItem("prendas", JSON.stringify(prendas))
-
         }
 
         btnEditar.onclick = () => editarPrenda(index);
@@ -100,10 +103,9 @@ const mostrarPrendas = (prendas) => {
 
 const eliminarPrenda = (index) => {
     prendas.splice(index, 1);
+    localStorage.setItem("prendas", JSON.stringify(prendas));
     mostrarPrendas(prendas);
 };
-
-// funcion para editar prenda
 
 const editarPrenda = (index) => {
     prendasEditar = prendas[index];
@@ -113,17 +115,14 @@ const editarPrenda = (index) => {
     stock.value = prendasEditar.stock;
 
     modoEdicion = true;
-    agregar.innerHTML = "Editar"; // Cambiar el texto del botón a "Editar"
+    agregar.innerHTML = "Editar";
 }
 
-
-// boton busqueda y filtrado
 buscar.oninput = (event) => {
-    console.log(event.target.value);
-    if(event.target.value === " ") {
+    if (event.target.value.trim() === "") {
         mostrarPrendas(prendas);
-    }else {
-        let prendasFiltradas = prendas.filter (prenda => prenda.nombre.toLowerCase().includes(event.target.value))
+    } else {
+        let prendasFiltradas = prendas.filter(prenda => prenda.nombre.toLowerCase().includes(event.target.value.toLowerCase()));
         mostrarPrendas(prendasFiltradas);
     }
 }
