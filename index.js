@@ -60,8 +60,31 @@ form.onsubmit = (event) => {
 
         modoEdicion = false; 
         agregar.innerHTML = "Agregar"; 
+        Swal.fire({
+            title: `Prenda editada`,
+            text: `Has editado la prenda ${prendasEditar.nombre}`,
+            icon: "info",
+            confirmButtonText: "Aceptar",
+            timer: 3000
+        });
+        // Swal.fire({
+        //     title: 'Custom animation with Animate.css',
+        //     showClass: {
+        //       popup: 'animate__animated animate__fadeInDown'
+        //     },
+        //     hideClass: {
+        //       popup: 'animate__animated animate__fadeOutUp'
+        //     }
+        //   })
     } else {
         prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
+        Swal.fire({
+            title: `Prenda agregada`,
+            text: `Has agregado la prenda ${nombre.value}`,
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            timer: 1500
+        });
     }
 
     localStorage.setItem("prendas", JSON.stringify(prendas));
@@ -86,6 +109,7 @@ const mostrarPrendas = (prendas) => {
         btnEditar.innerHTML = "Editar";
         tarjetaPrendas.appendChild(btnEditar);
 
+
         let btnEliminar = document.createElement("button");
         btnEliminar.classList.add("btn", "btn-danger");
         btnEliminar.innerHTML = "Eliminar";
@@ -93,6 +117,13 @@ const mostrarPrendas = (prendas) => {
 
         btnEliminar.onclick = () => {
             eliminarPrenda(index);
+            Swal.fire({
+                title: `Has eliminado una prenda`,
+                text: `Has eliminado la prenda ${prenda.nombre}`,
+                icon: "warning",
+                confirmButtonText: "Aceptar",
+                timer: 3000
+            })
         }
 
         btnEditar.onclick = () => editarPrenda(index);
@@ -116,6 +147,7 @@ const editarPrenda = (index) => {
 
     modoEdicion = true;
     agregar.innerHTML = "Editar";
+
 }
 
 buscar.oninput = (event) => {
