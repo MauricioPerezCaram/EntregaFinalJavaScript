@@ -67,15 +67,7 @@ form.onsubmit = (event) => {
             confirmButtonText: "Aceptar",
             timer: 3000
         });
-        // Swal.fire({
-        //     title: 'Custom animation with Animate.css',
-        //     showClass: {
-        //       popup: 'animate__animated animate__fadeInDown'
-        //     },
-        //     hideClass: {
-        //       popup: 'animate__animated animate__fadeOutUp'
-        //     }
-        //   })
+
     } else {
         prendas.push(new Mercaderia(nombre.value, precio.value, stock.value));
         Swal.fire({
@@ -125,9 +117,7 @@ const mostrarPrendas = (prendas) => {
                 timer: 3000
             })
         }
-
         btnEditar.onclick = () => editarPrenda(index);
-
     })    
 
 }
