@@ -148,3 +148,15 @@ buscar.oninput = (event) => {
         mostrarPrendas(prendasFiltradas);
     }
 }
+
+
+// función mensaje ayuda
+function mensajeAyuda () {
+    Swal.fire({
+        title: `Necesitas ayuda?`,
+        text: `Comunicate con el centro de atención para recibir ayuda`,
+        icon: "question",
+        confirmButtonText: "Recibir ayuda",
+    })
+}
+setTimeout(mensajeAyuda, 15000)
