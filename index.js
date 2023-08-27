@@ -162,31 +162,13 @@ function mensajeAyuda () {
 }
 setTimeout(mensajeAyuda, 100000) // proceso asincrónico (despues de leer todo el sincronico va a leer este asincronico)
 
-// Realiza una solicitud fetch para obtener los datos del archivo JSON
 fetch("./db/prendas.json")
     .then((resp) => resp.json())
-    .then((data) => {
-        // Almacena los datos en el almacenamiento local
-        localStorage.setItem("prendasJSON", JSON.stringify(data));
+    .then((data) => localStorage.setItem("prendasJSON", JSON.stringify(data)));
 
-        // Llama a la función para mostrar las prendas
-        mostrarPrendasJson(data);
-    })
-    .catch((error) => {
-        console.error("Error al cargar los datos:", error);
-    });
-
-// // Función para mostrar las prendas obtenidas del JSON
-// const mostrarPrendasJson = (prendasJson) => {
-//     prendasJson.forEach((prenda) => {
-//         const { nombre, precio, stock } = prenda;
-//         let div = document.createElement("div");
-//         div.innerHTML = `
-//             <p>Nombre: ${nombre}</p>
-//             <p>Precio: ${precio}</p>
-//             <p>Stock: ${stock}</p>
-//         `;
-//         contenedorPrendas.appendChild(div);  // Usar contenedorPrendas en lugar de prendas
-//     });
-// };
-
+const obtenerPrendas = async () => {
+    const resp = await fetch("./db/prendas.json");
+    const info = await resp.json();
+    console.log(info);
+}
+obtenerPrendas();
