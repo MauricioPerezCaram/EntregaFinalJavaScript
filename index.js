@@ -75,7 +75,7 @@ form.onsubmit = (event) => {
             text: `Has agregado la prenda ${nombre.value}`,
             icon: "success",
             confirmButtonText: "Aceptar",
-            timer: 1500
+            timer: 3000
         });
     }
 
@@ -154,9 +154,10 @@ buscar.oninput = (event) => {
 function mensajeAyuda () {
     Swal.fire({
         title: `Necesitas ayuda?`,
-        text: `Comunicate con el centro de atención para recibir ayuda`,
+        text: `Envianos un mail a perezcarammauricio@gmail.com y contanos cuál es el problema`,
         icon: "question",
-        confirmButtonText: "Recibir ayuda",
+        confirmButtonText: "Aceptar",
+        timer: 5000
     })
 }
-setTimeout(mensajeAyuda, 15000)
+setTimeout(mensajeAyuda, 100000) // proceso asincrónico (despues de leer todo el sincronico va a leer este asincronico)
